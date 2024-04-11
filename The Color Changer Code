@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatic Color Changer with Color Counters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            transition: background-color 0.5s ease; /* Smooth color transition */
+        }
+        #colorCounter {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Automatic Color Changer with Color Counters</h1>
+    <h2> EPILEPSY WARNING!! IT WILL FLASH FAST</h2>
+    <p>The page color will change every thenth of a second!
+    The counter underneath shows each time a color has appeared and how many times the page changed color!</p>
+    <div id="colorCounter">Color changes: 0</div>
+
+    <script>
+        let colorChanges = 0;
+        const colorCount = {}; // Object to track color occurrences
+
+        function getRandomColor() {
+            // Array of named colors
+            const colors = ['red', 'blue', 'green', 'purple', 'orange', 'yellow', 'cyan', 'magenta'];
+            // Pick a random color from the array
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function changeColor() {
+            const newColor = getRandomColor();
+
+            // Update the background color of the body
+            document.body.style.backgroundColor = newColor;
+
+            // Update color changes counter
+            colorChanges++;
+            document.getElementById('colorCounter').textContent = `Color changes: ${colorChanges}`;
+
+            // Track color occurrences
+            if (colorCount[newColor]) {
+                colorCount[newColor] += 1;
+            } else {
+                colorCount[newColor] = 1;
+            }
+
+            // Update color-specific counters
+            updateColorCounters();
+        }
+
+        function updateColorCounters() {
+            const colorCounterElement = document.getElementById('colorCounter');
+            colorCounterElement.innerHTML = `Color changes: ${colorChanges}<br><br>`;
+
+            // Display color-specific counters
+            for (const color in colorCount) {
+                if (colorCount.hasOwnProperty(color)) {
+                    colorCounterElement.innerHTML += `${color}: ${colorCount[color]}<br>`;
+                }
+            }
+        }
+
+        // Automatically change color every second
+        setInterval(() => {
+            changeColor();
+        }, 100); // Change color every 1000 milliseconds (1 second)
+    </script>
+</body>
+</html>
